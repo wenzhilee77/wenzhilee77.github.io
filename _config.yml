@@ -14,7 +14,6 @@ url: "https://wenzhilee77.github.io" # the base hostname & protocol for your sit
 permalink: /:year/:month/:day/:title/
 
 # other links
-weixin_username: chenhaonan8911
 github_username: wenzhilee77
 email: wenzhilee77@gmail.com
 
