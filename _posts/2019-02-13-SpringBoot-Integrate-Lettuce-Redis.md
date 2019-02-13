@@ -19,7 +19,7 @@ Lettuce和Jedis的都是连接Redis Server的客户端程序。Jedis在实现上
 Spring Boot1.5的版本默认采用的连接池技术是jedis，2.0以上版本默认连接池是lettuce。
 spring2.0集成redis所需common-pool2。
 Redis对象序列化器jackson-databind。
-'''java
+'''
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -50,7 +50,7 @@ Redis对象序列化器jackson-databind。
 
 ## 属性配置
 
-'''java
+'''
 server:
   port: 8088
 
@@ -70,7 +70,7 @@ spring:
 
 ## 自定义Template
 
-'''java
+'''
 /**
  * Redis Configuration
  *
@@ -96,7 +96,7 @@ public class RedisConfiguration
 
 ## 实体类
 
-'''java
+'''
 /**
  * Demo class
  *
@@ -168,7 +168,7 @@ public class User implements Serializable
 
 ##  测试
 
-'''java
+'''
 public class RedisDemoApplicationTests
 {
     private static final Logger log = LoggerFactory.getLogger(RedisDemoApplicationTests.class);
