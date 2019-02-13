@@ -3,7 +3,7 @@ layout: post
 title:  "SpringBoot整合Lettuce Redis"
 categories: Spring Boot
 tags:  SpringBoot Lettuce Redis 线程安全  
-author: SnakeSon
+author: wenzhilee77
 ---
 
 * content
@@ -19,7 +19,7 @@ Lettuce和Jedis的都是连接Redis Server的客户端程序。Jedis在实现上
 Spring Boot1.5的版本默认采用的连接池技术是jedis，2.0以上版本默认连接池是lettuce。
 spring2.0集成redis所需common-pool2。
 Redis对象序列化器jackson-databind。
-'''
+```java
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -32,7 +32,6 @@ Redis对象序列化器jackson-databind。
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
@@ -44,13 +43,11 @@ Redis对象序列化器jackson-databind。
             <artifactId>jackson-databind</artifactId>
             <version>2.9.8</version>
         </dependency>
-
     </dependencies>
-'''
+```
 
 ## 属性配置
-
-'''
+```java
 server:
   port: 8088
 
@@ -66,11 +63,11 @@ spring:
         max-idle: 8
         max-wait: -1
         min-idle: 0
-'''
+```
 
 ## 自定义Template
 
-'''
+```java
 /**
  * Redis Configuration
  *
@@ -92,11 +89,11 @@ public class RedisConfiguration
         return template;
     }
 }
-'''
+```
 
 ## 实体类
 
-'''
+```java
 /**
  * Demo class
  *
@@ -164,11 +161,11 @@ public class User implements Serializable
         return "User{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + password + '\'' + '}';
     }
 }
-'''
+```
 
 ##  测试
 
-'''
+```java
 public class RedisDemoApplicationTests
 {
     private static final Logger log = LoggerFactory.getLogger(RedisDemoApplicationTests.class);
@@ -198,7 +195,7 @@ public class RedisDemoApplicationTests
         log.info("[对象缓存结果] - [{}]", user);
     }
 }
-'''
+```
 
 引用：
 
