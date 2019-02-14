@@ -77,22 +77,18 @@ https://github.com/alibaba/DataX
   
 ## 简单测试
   
-* 数据库建表  
-  
+* 数据库建表
+
 ```
 create database datax;
 use datax;
-
 create table info
 (
   id int primary key auto_increment,
   name varchar(20),
   password varchar(50)
 );
-
 insert into info(name, password) values('test','test'),('test2','test2'),('just','just'),('what','what');
-
-
 create database test;
 use test;
 create table test_datax
@@ -102,6 +98,7 @@ create table test_datax
   password varchar(50)
 );
 ```
+
   
 * 编写同步任务
   
