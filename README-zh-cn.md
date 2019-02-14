@@ -75,10 +75,6 @@
 
 本页是用`markdown`写的，用户可以收藏自己喜欢的文章链接。
 
-### 展示页 Demo
-
-使用 [Masonry](http://masonry.desandro.com/) 重写了瀑布流布局，响应式布局，更好的交互体验。
-
 ### 关于页 About
 
 对个人和对本站的介绍，使用`markdown`写的。
