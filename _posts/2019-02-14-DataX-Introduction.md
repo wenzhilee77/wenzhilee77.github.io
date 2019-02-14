@@ -19,6 +19,7 @@ DataX本身作为离线数据同步框架，采用Framework + plugin架构构建
 * Writer： Writer为数据写入模块，负责不断向Framework取数据，并将数据写入到目的端。
 * Framework：Framework用于连接reader和writer，作为两者的数据传输通道，并处理缓冲，流控，并发，数据转换等核心技术问题。
 
+
 ## 支持的数据源
 DataX目前已经有了比较全面的插件体系，主流的RDBMS数据库、NOSQL、大数据计算系统都已经接入，目前支持数据如下图
 
@@ -44,6 +45,7 @@ DataX目前已经有了比较全面的插件体系，主流的RDBMS数据库、N
 |  | HDFS | 支持 | 支持 |
 |  | Elasticsearch |  | 支持 |
 
+
 ## DataX3.0核心架构
 ![](/images/datax/job_tasks.png)
 DataX 3.0 开源版本支持单机多线程模式完成同步作业运行，本小节按一个DataX作业生命周期的时序图，从整体架构设计非常简要说明DataX各个模块相互关系。
@@ -52,6 +54,7 @@ DataX 3.0 开源版本支持单机多线程模式完成同步作业运行，本�
 * DataXJob启动后，会根据不同的源端切分策略，将Job切分成多个小的Task(子任务)，以便于并发执行。Task便是DataX作业的最小单元，每一个Task都会负责一部分数据的同步工作。
 * 切分多个Task之后，DataX Job会调用Scheduler模块，根据配置的并发数据量，将拆分成的Task重新组合，组装成TaskGroup(任务组)。每一个TaskGroup负责以一定的并发运行完毕分配好的所有Task，默认单个任务组的并发数量为5。
 * 每一个Task都由TaskGroup负责启动，Task启动后，会固定启动Reader—>Channel—>Writer的线程来完成任务
+
 
 ## 已提供的插件
 * hdfsreader : 支持从hdfs文件系统获取数据。  
@@ -67,6 +70,7 @@ DataX 3.0 开源版本支持单机多线程模式完成同步作业运行，本�
 * oraclewriter ：支持向oracle写入数据。  
 * streamwriter ：支持向stream流写入数据。（常用于测试）
 
+
 ## 下载地址
 https://github.com/alibaba/DataX
 
@@ -74,6 +78,7 @@ https://github.com/alibaba/DataX
 * JDK(1.6以上，推荐1.6)
 * Python(推荐Python2.6.X)一定要为python2，因为后面执行datax.py的时候，里面的python的print会执行不了，导致运行不成功，会提示你print语法要加括号，python2中加不加都行 python3中必须要加，否则报语法错
 * Maven
+
 
 ## 未完待续
 
