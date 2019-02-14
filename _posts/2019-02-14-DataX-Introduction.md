@@ -77,7 +77,7 @@ https://github.com/alibaba/DataX
   
 ## 简单测试
 * 数据库建表
-```sql
+```
 create database datax;
 use datax;
 
@@ -165,6 +165,7 @@ python datax.py ~/Documents/datax1.json
   
 ## 配置参数
 * Reader部分参数表
+
 | 参数名 | 解释 | 备注 |
 | ----- | ----- | ----- |
 | name | 与要读取的数据库类别一致 | 字符串 |
@@ -178,7 +179,9 @@ python datax.py ~/Documents/datax1.json
 | where | 选取的条件 |  |
 | querySql | 自定义查询语句 | 会自动忽略上述的where条件 |
   
+  
 * Writer部分参数表
+
 | 参数名 | 解释 | 备注 |
 | ----- | ----- | ----- |
 | name | 与要写入的数据库类别一致 | 字符串 |
@@ -193,6 +196,7 @@ python datax.py ~/Documents/datax1.json
 | preSql | 写入前执行的语句 | 数组，比如清空表等 |
 | postSql | 写入后执行的语句 | 数组 |
 | querySql | 自定义查询语句 | 会自动忽略上述的where条件 |
+  
   
 ## Java程序执行同步任务
 待续......
