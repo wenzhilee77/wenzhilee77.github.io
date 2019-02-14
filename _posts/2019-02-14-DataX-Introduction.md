@@ -23,7 +23,7 @@ DataX本身作为离线数据同步框架，采用Framework + plugin架构构建
 DataX目前已经有了比较全面的插件体系，主流的RDBMS数据库、NOSQL、大数据计算系统都已经接入，目前支持数据如下图
 
 | 类型 | 数据源 | Reader(读) | Writer(写) |
-| ------ | ------ | ----- | ------ |
+| ------ | ------ | ------ | ------ |
 | RDBMS 关系型数据库 | MySQL | 支持 | 支持 |
 |  | Oracle | 支持 | 支持 |
 |  | SQLServer | 支持 | 支持 |
@@ -79,7 +79,7 @@ https://github.com/alibaba/DataX
   
 * 数据库建表  
   
-```mysql
+```
 create database datax;
 use datax;
 
@@ -167,10 +167,10 @@ python datax.py ~/Documents/datax1.json
 ```
   
 ## 配置参数
-* Reader部分参数表  
+* Reader部分参数表
 
 | 参数名 | 解释 | 备注 |
-| ----- | ----- | ----- |
+| ------ | ------ | ------ |
 | name | 与要读取的数据库类别一致 | 字符串 |
 | jdbcUrl | 数据库链接字符串 | 数组，会自动选择一个合法的链接，可以填写连接附件控制信息 |
 | username |  | 数据库用户名 |
@@ -179,12 +179,12 @@ python datax.py ~/Documents/datax1.json
 | column |  | 数组 |
 | where | 选取的条件 |  |
 | querySql | 自定义查询语句 | 会自动忽略上述的where条件 |
-  
-  
+
+
 * Writer部分参数表
 
 | 参数名 | 解释 | 备注 |
-| ----- | ----- | ----- |
+| ------ | ------ | ------|
 | name | 与要写入的数据库类别一致 | 字符串 |
 | jdbcUrl | 数据库链接字符串 | 数组，会自动选择一个合法的链接，可以填写连接附件控制信息 |
 | username |  | 数据库用户名 |
@@ -194,7 +194,7 @@ python datax.py ~/Documents/datax1.json
 | preSql | 写入前执行的语句 | 数组，比如清空表等 |
 | postSql | 写入后执行的语句 | 数组 |
 | querySql | 自定义查询语句 | 会自动忽略上述的where条件 |
-  
+
   
 ## Java程序执行同步任务
 待续......
