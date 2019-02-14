@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "DataX 简介"
-categories: DataX
+categories: BigData DataX
 tags:  DataX 数据同步  
 author: wenzhilee77
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "SpringBoot整合Lettuce Redis"
-categories: Spring Boot
+categories: BigData SpringBoot
 tags:  SpringBoot Lettuce Redis 线程安全  
 author: wenzhilee77
 ---
