@@ -194,8 +194,39 @@ python datax.py ~/Documents/datax1.json
 
   
 ## Java程序执行同步任务
-待续......
-  
+
+```java
+public class DataxDemo
+{
+    public static void main(String[] args)
+    {
+        try
+        {
+            String dataxPath = "/Users/myName/Softwares/datax/bin/datax.py";
+            String jsonPath = "/Users/myName/Documents/datax1.json";
+            
+            String cmds = "python " + dataxPath + " " + jsonPath;
+            System.out.println(cmds);
+            Process proc = Runtime.getRuntime().exec(cmds);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String line = null;
+            while ((line = in.readLine()) != null)
+            {
+                System.out.println(line);
+            }
+            in.close();
+            proc.waitFor();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+
   
 参考
 https://www.cnblogs.com/shujuxiong/p/9253455.html
