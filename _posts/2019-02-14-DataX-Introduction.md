@@ -76,8 +76,9 @@ https://github.com/alibaba/DataX
 * Maven  
   
 ## 简单测试
-* 数据库建表
-```
+* 数据库建表  
+  
+```mysql
 create database datax;
 use datax;
 
@@ -102,6 +103,7 @@ create table test_datax
 ```
   
 * 编写同步任务
+  
 ```json
 {
     "job":{
@@ -164,7 +166,7 @@ python datax.py ~/Documents/datax1.json
 ```
   
 ## 配置参数
-* Reader部分参数表
+* Reader部分参数表  
 
 | 参数名 | 解释 | 备注 |
 | ----- | ----- | ----- |
