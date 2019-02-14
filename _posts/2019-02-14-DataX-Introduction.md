@@ -75,11 +75,129 @@ https://github.com/alibaba/DataX
 * Python(推荐Python2.6.X)一定要为python2，因为后面执行datax.py的时候，里面的python的print会执行不了，导致运行不成功，会提示你print语法要加括号，python2中加不加都行 python3中必须要加，否则报语法错
 * Maven  
   
-## 未完待续
+## 简单测试
+* 数据库建表
+```sql
+create database datax;
+use datax;
 
-......
+create table info
+(
+  id int primary key auto_increment,
+  name varchar(20),
+  password varchar(50)
+);
+
+insert into info(name, password) values('test','test'),('test2','test2'),('just','just'),('what','what');
 
 
-
+create database test;
+use test;
+create table test_datax
+(
+  id int primary key auto_increment,
+  name varchar(20),
+  password varchar(50)
+);
+```
+  
+* 编写同步任务
+```json
+{
+    "job":{
+        "content":[
+            {
+                "reader":{
+                    "name":"mysqlreader",
+                    "parameter":{
+                        "column":[
+                            "name",
+                            "password"
+                        ],
+                        "connection":[
+                            {
+                                "jdbcUrl":[
+                                    "jdbc:mysql://127.0.0.1:3306/datax"
+                                ],
+                                "table":[
+                                    "info"
+                                ]
+                            }
+                        ],
+                        "password":"root",
+                        "username":"root"
+                    }
+                },
+                "writer":{
+                    "name":"mysqlwriter",
+                    "parameter":{
+                        "column":[
+                            "name",
+                            "password"
+                        ],
+                        "connection":[
+                            {
+                                "jdbcUrl":"jdbc:mysql://127.0.0.1:3306/test",
+                                "table":[
+                                    "test_datax"
+                                ]
+                            }
+                        ],
+                        "password":"root",
+                        "username":"root"
+                    }
+                }
+            }
+        ],
+        "setting":{
+            "speed":{
+                "channel":"1"
+            }
+        }
+    }
+}
+```
+  
+* 执行同步任务
+```
+python datax.py ~/Documents/datax1.json
+```
+  
+## 配置参数
+* Reader部分参数表
+| 参数名 | 解释 | 备注 |
+| ----- | ----- | ----- |
+| name | 与要读取的数据库类别一致 | 字符串 |
+| jdbcUrl | 数据库链接字符串 | 数组
+                            会自动选择一个合法的链接
+                            可以填写连接附件控制信息 |
+| username |  | 数据库用户名 |
+| password |  | 数据库密码 |
+| table | 要同步的表名 | 数组，需保证表结构一致 |
+| column |  | 数组 |
+| where | 选取的条件 |  |
+| querySql | 自定义查询语句 | 会自动忽略上述的where条件 |
+  
+* Writer部分参数表
+| 参数名 | 解释 | 备注 |
+| ----- | ----- | ----- |
+| name | 与要写入的数据库类别一致 | 字符串 |
+| jdbcUrl | 数据库链接字符串 | 数组
+                            会自动选择一个合法的链接
+                            可以填写连接附件控制信息 |
+| username |  | 数据库用户名 |
+| password |  | 数据库密码 |
+| table | 要同步的表名 | 数组，需保证表结构一致 |
+| column |  | 数组
+              列名可以不对应，但是类型和总的个数要一致|
+| preSql | 写入前执行的语句 | 数组，比如清空表等 |
+| postSql | 写入后执行的语句 | 数组 |
+| querySql | 自定义查询语句 | 会自动忽略上述的where条件 |
+  
+## Java程序执行同步任务
+待续......
+  
+  
 参考
 https://www.cnblogs.com/shujuxiong/p/9253455.html
+https://blog.csdn.net/qq_28131641/article/details/80540079
