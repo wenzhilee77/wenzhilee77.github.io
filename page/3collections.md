@@ -75,6 +75,8 @@ type: page
 
 * [Data Structure Visualizations](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
 
+* [RedisDesktopManager](https://redisdesktop.com/download)
+
 
 ## GitBook 及其插件
 
