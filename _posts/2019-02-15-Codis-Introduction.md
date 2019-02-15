@@ -41,9 +41,25 @@ Codis的内部，有三个主要的模块， Router，Model，Redis。 Router负
 Model模块是和ZK交互的对象，负责发送指令给客户端，并解析返回结果。后面也会给大家主要介绍这块内容。
 
 
+## 集群架构
+
+服务端：codis-fe------codis-dashboard------codis-proxy------codis-group------codis-server
+客户端：client------nginx-tcp------codis-proxy
+cdis-fe可以管理多个codis-dashboard
+每个codis-dashboard代表一个产品线，每个codis-dashboard可以管理多个codis-proxy
+每个codis-proxy可以管理多个codis-server group
+每个codis-server group至少由两个codis-server组成，最少1主1备
+由上可知一个大的codis集群可以分多个产品线，客户端连接各个产品线的codis-proxy，业务线之间可以做到物理隔离，比如group1，group2，group3分给codis-product1业务线，group4，
+group5，group6分给codis-product2业务线，codis-dashboard配置保存在zookeeper里。
+特别注意
+同一个codis-server加入多个codis-dashboard的codis-group里，但是在不同的codis-dashboard里面主备的角色要一致，这代表逻辑隔离。
+同一个codis-server只加入唯一的codis-dashboard的codis-group里，这代表物理隔离。
+
+
 ## dashboard
 
 dashboard在codis中是一个很重要的角色，所有的集群信息变更操作都是通过dashboard发起的（这个设计有点像docker），dashboard对外暴露了一系列RESTfulAPI接口，不管是web管理工具，还是命令行工具都是通过访问这些httpapi来进行操作的，所以请保证dashboard和其他各个组件的网络连通性。
+
 
 ## zookeeper
 
@@ -61,11 +77,13 @@ zk除了存储路由信息，同时还作为一个事件同步的媒介服务，
 
 这里的HA分成两部分，一个是proxy层的HA，还有底层Redis的HA。先说proxy层的HA。之前提到过proxy本身是无状态的，所以proxy本身的HA是比较好做的，因为连接到任何一个活着的proxy上都是一样的，在生产环境中，我们使用的是jodis，这个是我们开发的一个jedis连接池，很简单，就是监听zk上面的存活proxy列表，挨个返回jedis对象，达到负载均衡和HA的效果。也有朋友在生产环境中使用LVS和HA Proxy来做负载均衡，这也是可以的。 Redis本身的HA，这里的Redis指的是codis底层的各个server group的master，在一开始的时候codis本来就没有将这部分的HA设计进去，因为Redis在挂掉后，如果直接将slave提升上来的话，可能会造成数据不一致的情况，因为有新的修改可能在master中还没有同步到slave上，这种情况下需要管理员手动的操作修复数据。后来我们发现这个需求确实比较多的朋友反映，于是我们开发了一个简单的ha工具：codis-ha，用于监控各个server group的master的存活情况，如果某个master挂掉了，会直接提升该group的一个slave成为新的master。
 
+
 ## Codis 分片原理
 
 在Codis中，Codis会把所有的key分成1024个槽，这1024个槽对应着的就是Redis的集群，这个在Codis中是会在内存中维护着这1024个槽与Redis实例的映射关系。这个槽是可以配置，可以设置成 2048 或者是4096个。看你的Redis的节点数量有多少，偏多的话，可以设置槽多一些。
 
 Codis中key的分配算法，先是把key进行CRC32 后，得到一个32位的数字，然后再hash%1024后得到一个余数，这个值就是这个key对应着的槽，这槽后面对应着的就是redis的实例。(可以思考一下，为什么Codis很多命令行不支持，例如KEYS操作)
+
 
 ## Codis之间的槽位同步
 
@@ -75,6 +93,7 @@ Codis把这个工作交给了ZooKeeper来管理，当Codis的Codis Dashbord 改�
 
 ![](/images/codis/zookeeper)
 
+
 ## Codis中的扩容
 
 思考一个问题：在Codis中增加了Redis节点后,槽位的信息怎么变化，原来的key怎么迁移和分配？如果在扩容的时候，这个时候有新的key进来，Codis的处理策略是怎么样的？
@@ -82,6 +101,7 @@ Codis把这个工作交给了ZooKeeper来管理，当Codis的Codis Dashbord 改�
 因为Codis是一个代理中间件，所以这个当需要扩容Redis实例的时候，可以直接增加redis节点。在槽位分配的时候，可以手动指定Codis Dashbord来为新增的节点来分配特定的槽位。
 在Codis中实现了自定义的扫描指令SLOTSSCAN，可以扫描指定的slot下的所有的key，将这些key迁移到新的Redis的节点中(话外语：这个是Codis定制化的其中一个好处)。
 首先，在迁移的时候，会在原来的Redis节点和新的Redis里都保存着迁移的槽位信息，在迁移的过程中，如果有key打进将要迁移或者正在迁移的旧槽位的时候，这个时候Codis的处理机制是，先是将这个key强制迁移到新的Redis节点中，然后再告诉Codis,下次如果有新的key的打在这个槽位中的话，那么转发到新的节点。
+
 
 ## 自动均衡策略
 
