@@ -44,15 +44,23 @@ Model模块是和ZK交互的对象，负责发送指令给客户端，并解析�
 ## 集群架构
 
 服务端：codis-fe------codis-dashboard------codis-proxy------codis-group------codis-server
+
 客户端：client------nginx-tcp------codis-proxy
+
 cdis-fe可以管理多个codis-dashboard
+
 每个codis-dashboard代表一个产品线，每个codis-dashboard可以管理多个codis-proxy
+
 每个codis-proxy可以管理多个codis-server group
+
 每个codis-server group至少由两个codis-server组成，最少1主1备
+
 由上可知一个大的codis集群可以分多个产品线，客户端连接各个产品线的codis-proxy，业务线之间可以做到物理隔离，比如group1，group2，group3分给codis-product1业务线，group4，
 group5，group6分给codis-product2业务线，codis-dashboard配置保存在zookeeper里。
+
 特别注意
 同一个codis-server加入多个codis-dashboard的codis-group里，但是在不同的codis-dashboard里面主备的角色要一致，这代表逻辑隔离。
+
 同一个codis-server只加入唯一的codis-dashboard的codis-group里，这代表物理隔离。
 
 
