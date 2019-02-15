@@ -14,7 +14,7 @@ author: wenzhilee77
 
 Lettuce和Jedis的都是连接Redis Server的客户端程序。Jedis在实现上是直连redis server，多线程环境下非线程安全，除非使用连接池，为每个Jedis实例增加物理连接。Lettuce基于Netty的连接实例（StatefulRedisConnection），可以在多个线程间并发访问，且线程安全，满足多线程环境下的并发访问，同时它是可伸缩的设计，一个连接实例不够的情况也可以按需增加连接实例。
 
-##  导入依赖
+## 导入依赖
 
 Spring Boot1.5的版本默认采用的连接池技术是jedis，2.0以上版本默认连接池是lettuce。
 spring2.0集成redis所需common-pool2。
@@ -90,6 +90,10 @@ public class RedisConfiguration
     }
 }
 ```
+
+## 封装redis操作
+
+待完善......
 
 ## 实体类
 
