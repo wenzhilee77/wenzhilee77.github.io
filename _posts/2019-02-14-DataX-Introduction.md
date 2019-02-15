@@ -75,7 +75,7 @@ https://github.com/alibaba/DataX
 * Python(推荐Python2.6.X)一定要为python2，因为后面执行datax.py的时候，里面的python的print会执行不了，导致运行不成功，会提示你print语法要加括号，python2中加不加都行 python3中必须要加，否则报语法错
 * Maven  
   
-## 简单测试
+## 简单测试1
   
 * 数据库建表
 
@@ -163,6 +163,94 @@ create table test_datax
 python datax.py ~/Documents/datax1.json
 ```
   
+## 简单测试2
+
+* 数据库建表
+
+```
+CREATE TABLE `info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT NULL,
+  `sex` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE `test_datax` (
+  `user_id` int(11) NOT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `sex` varchar(10) DEFAULT NULL,
+  `login` varchar(20) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+)
+```
+
+* 编写同步任务
+
+```json
+{
+    "job":{
+        "content":[
+            {
+                "reader":{
+                    "name":"mysqlreader",
+                    "parameter":{
+                        "connection":[
+                            {
+                                "jdbcUrl":[
+                                    "jdbc:mysql://127.0.0.1:3306/datax"
+                                ],
+                                "querySql":[
+                                    "select u.id user_id, u.name, u.sex, i.name login, i.password from info i, user u where i.user_id = u.id;"
+                                ]
+                            }
+                        ],
+                        "password":"root",
+                        "username":"root"
+                    }
+                },
+                "writer":{
+                    "name":"mysqlwriter",
+                    "parameter":{
+                        "column":[
+                            "user_id",
+                            "name",
+                            "sex",
+                            "login",
+                            "password"
+                        ],
+                        "connection":[
+                            {
+                                "jdbcUrl":"jdbc:mysql://127.0.0.1:3306/test",
+                                "table":[
+                                    "test_datax"
+                                ]
+                            }
+                        ],
+                        "password":"root",
+                        "username":"root"
+                    }
+                }
+            }
+        ],
+        "setting":{
+            "speed":{
+                "channel":"1"
+            }
+        }
+    }
+}
+```
+
+
 ## 配置参数
 * Reader部分参数表
 
