@@ -58,7 +58,8 @@ cdis-fe可以管理多个codis-dashboard
 由上可知一个大的codis集群可以分多个产品线，客户端连接各个产品线的codis-proxy，业务线之间可以做到物理隔离，比如group1，group2，group3分给codis-product1业务线，group4，
 group5，group6分给codis-product2业务线，codis-dashboard配置保存在zookeeper里。
 
-特别注意
+特别注意  
+
 同一个codis-server加入多个codis-dashboard的codis-group里，但是在不同的codis-dashboard里面主备的角色要一致，这代表逻辑隔离。
 
 同一个codis-server只加入唯一的codis-dashboard的codis-group里，这代表物理隔离。
