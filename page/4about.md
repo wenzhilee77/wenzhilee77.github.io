@@ -16,10 +16,9 @@ type: page
 
 ## 联系我
 
-* GitHub：[wenzhilee77](https://github.com/wenzhilee77)
-* email：wenzhilee77@gmail.com
-
-
+* GitHub: [wenzhilee77](https://github.com/wenzhilee77)
+* Email: [wenzhilee77@gmail.com](wenzhilee77@gmail.com)
+* LinkedIn: [LinkedIn](https://www.linkedin.com/in/wenzhilee77)
 ## Comments
 
 轻微代码洁癖~
