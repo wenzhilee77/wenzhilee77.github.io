@@ -77,6 +77,8 @@ type: page
 
 * [RedisDesktopManager](https://redisdesktop.com/download)
 
+* [码云](https://gitee.com/)
+
 
 ## GitBook 及其插件
 
@@ -87,7 +89,9 @@ type: page
 
     <!-- ![](http://ww4.sinaimg.cn/large/7011d6cfjw1f08kmplbj1j20gn05l0tk.jpg) -->
 
+
 ## Chrome 插件
+
 - [Octotree](https://chrome.google.com/webstore/detail/octotree/bkhaagjahfmjljalopjnoealnfndnagc)
 
     - Code tree for GitHub and GitLab
@@ -98,6 +102,7 @@ type: page
 * [Dribbble New Tab](https://chrome.google.com/webstore/detail/dribbble-new-tab/hmhjbefkpednjogghoibpejdmemkinbn)
 
     新建 tab 时，显示 dribbble 上的精选作品。
+
 
 ## Other blogs
 
@@ -137,6 +142,7 @@ type: page
 
 * [JS前端开发群月报 -豪情等人维护](http://www.kancloud.cn/jsfront/month/82796)
 
+
 ## 交互设计相关
 
 - [Framer](https://framerjs.com/)
@@ -154,6 +160,7 @@ type: page
 - [https://gyrosco.pe/](https://gyrosco.pe/)
 
     首页的卡片翻动效果非常赞。
+
 
 ## Comments
 
