@@ -22,8 +22,7 @@ author: wenzhilee77
 
 ## String StringBuffer 和 StringBuilder 的区别是什么 String 为什么是不可变的
 
-1.可变性
-
+可变性
 简单的来说：String 类中使用 final 关键字字符数组保存字符串，private　final　char　value[]，所以 String 对象是不可变的。而StringBuilder 与 StringBuffer 都继承自 AbstractStringBuilder 类，在 AbstractStringBuilder 中也是使用字符数组保存字符串char[]value 但是没有用 final 关键字修饰，所以这两种对象都是可变的。
 StringBuilder 与 StringBuffer 的构造方法都是调用父类构造方法也就是 AbstractStringBuilder 实现的，大家可以自行查阅源码。
 
@@ -40,18 +39,16 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
     }
 ```
 
-2.线程安全性
-
+线程安全性
 String 中的对象是不可变的，也就可以理解为常量，线程安全。AbstractStringBuilder 是 StringBuilder 与 StringBuffer 的公共父类，定义了一些字符串的基本操作，如 expandCapacity、append、insert、indexOf 等公共方法。StringBuffer 对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的。StringBuilder 并没有对方法进行加同步锁，所以是非线程安全的。 　　
 
-3.性能
-
+性能
 每次对 String 类型进行改变的时候，都会生成一个新的 String 对象，然后将指针指向新的 String 对象。StringBuffer 每次都会对 StringBuffer 对象本身进行操作，而不是生成新的对象并改变对象引用。相同情况下使用 StringBuilder 相比使用 StringBuffer 仅能获得 10%~15% 左右的性能提升，但却要冒多线程不安全的风险。
 
 对于三者使用的总结：
-1)操作少量的数据 = String
-2)单线程操作字符串缓冲区下操作大量数据 = StringBuilder
-3)多线程操作字符串缓冲区下操作大量数据 = StringBuffer
+操作少量的数据 = String
+单线程操作字符串缓冲区下操作大量数据 = StringBuilder
+多线程操作字符串缓冲区下操作大量数据 = StringBuffer
 
 ## 在一个静态方法内调用一个非静态成员为什么是非法的
 
@@ -63,11 +60,11 @@ Java 程序在执行子类的构造方法之前，如果没有用 super() 来调
 
 ## 接口和抽象类的区别是什么
 
-1）接口的方法默认是 public，所有方法在接口中不能有实现(Java 8 开始接口方法可以有默认实现），抽象类可以有非抽象的方法
-2）接口中的实例变量默认是 final 类型的，而抽象类中则不一定
-3）一个类可以实现多个接口，但最多只能实现一个抽象类
-4）一个类实现接口的话要实现接口的所有方法，而抽象类不一定
-5）接口不能用 new 实例化，但可以声明，但是必须引用一个实现该接口的对象 从设计层面来说，抽象是对类的抽象，是一种模板设计，接口是行为的抽象，是一种行为的规范。
+1、接口的方法默认是 public，所有方法在接口中不能有实现(Java 8 开始接口方法可以有默认实现），抽象类可以有非抽象的方法
+2、接口中的实例变量默认是 final 类型的，而抽象类中则不一定
+3、一个类可以实现多个接口，但最多只能实现一个抽象类
+4、一个类实现接口的话要实现接口的所有方法，而抽象类不一定
+5、接口不能用 new 实例化，但可以声明，但是必须引用一个实现该接口的对象 从设计层面来说，抽象是对类的抽象，是一种模板设计，接口是行为的抽象，是一种行为的规范。
 
 ## 成员变量与局部变量的区别有那些
 
