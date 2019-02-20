@@ -12,7 +12,9 @@ author: wenzhilee77
 这里借用《Java并发编程的艺术》提到的来说一下使用线程池的好处：
 
 降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
+
 提高响应速度。当任务到达时，任务可以不需要的等到线程创建就能立即执行。
+
 提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。
 
 
@@ -151,6 +153,7 @@ protected <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
 Executors 返回线程池对象的弊端如下：
 
 FixedThreadPool 和 SingleThreadExecutor ： 允许请求的队列长度为 Integer.MAX_VALUE,可能堆积大量的请求，从而导致OOM。
+
 CachedThreadPool 和 ScheduledThreadPool ： 允许创建的线程数量为 Integer.MAX_VALUE ，可能会创建大量线程，从而导致OOM。
 
 方式一：通过构造方法实现
@@ -161,13 +164,16 @@ CachedThreadPool 和 ScheduledThreadPool ： 允许创建的线程数量为 Inte
 我们可以创建三种类型的ThreadPoolExecutor：
 
 FixedThreadPool
+
 SingleThreadExecutor
+
 CachedThreadPool
+
 对应Executors工具类中的方法如图所示：
 
 ![](/images/pool/pool5.jpg)
 
-FixedThreadPool详解
+* FixedThreadPool详解
 
 FixedThreadPool被称为可重用固定线程数的线程池。通过Executors类中的相关源代码来看一下相关实现：
 
@@ -178,7 +184,7 @@ FixedThreadPool被称为可重用固定线程数的线程池。通过Executors�
 	 *如果在所有线程处于活动状态时提交其他任务，则它们将在队列中等待，
 	 *直到线程可用。 如果任何线程在关闭之前的执行期间由于失败而终止，
 	 *如果需要执行后续任务，则一个新的线程将取代它。池中的线程将一直存在
-	 *知道调用shutdown方法
+	 *直到调用shutdown方法
      * @param nThreads 线程池中的线程数
      * @param threadFactory 创建新线程时使用的factory
      * @return 新创建的线程池
@@ -211,16 +217,22 @@ FixedThreadPool的execute()方法运行示意图（该图片来源：《Java并�
 上图说明：
 
 如果当前运行的线程数小于corePoolSize，则创建新的线程来执行任务；
+
 当前运行的线程数等于corePoolSize后，将任务加入LinkedBlockingQueue；
+
 线程执行完1中的任务后，会在循环中反复从LinkedBlockingQueue中获取任务来执行；
+
 FixedThreadPool使用无界队列 LinkedBlockingQueue（队列的容量为Intger.MAX_VALUE）作为线程池的工作队列会对线程池带来如下影响：
 
 当线程池中的线程数达到corePoolSize后，新任务将在无界队列中等待，因此线程池中的线程数不会超过corePoolSize；
+
 由于1，使用无界队列时maximumPoolSize将是一个无效参数；
+
 由于1和2，使用无界队列时keepAliveTime将是一个无效参数；
+
 运行中的FixedThreadPool（未执行shutdown()或shutdownNow()方法）不会拒绝任务
 
-SingleThreadExecutor详解
+* SingleThreadExecutor详解
 
 SingleThreadExecutor是使用单个worker线程的Executor。下面看看SingleThreadExecutor的实现：
 
@@ -262,7 +274,7 @@ public static ExecutorService newSingleThreadExecutor() {
 当前线程池中有一个运行的线程后，将任务加入LinkedBlockingQueue
 线程执行完1中的任务后，会在循环中反复从LinkedBlockingQueue中获取任务来执行；
 
-CachedThreadPool详解
+* CachedThreadPool详解
 
 CachedThreadPool是一个会根据需要创建新线程的线程池。下面通过源码来看看 CachedThreadPool的实现：
 
@@ -300,9 +312,7 @@ CachedThreadPool的corePoolSize被设置为空（0），maximumPoolSize被设置
 当初始maximumPool为空，或者maximumPool中没有空闲线程时，将没有线程执行SynchronousQueue.poll(keepAliveTime,TimeUnit.NANOSECONDS)。这种情况下，步骤1将失败，此时CachedThreadPool会创建新线程执行任务，execute方法执行完成；
 
 
-## ThreadPoolExecutor使用示例
-
-shutdown（）VS shutdownNow（）
+## shutdown（）VS shutdownNow（）
 
 shutdown（）方法表明关闭已在Executor上调用，因此不会再向DelayedPool添加任何其他任务（由ScheduledThreadPoolExecutor类在内部使用）。 但是，已经在队列中提交的任务将被允许完成。
 另一方面，shutdownNow（）方法试图终止当前正在运行的任务，并停止处理排队的任务并返回正在等待执行的List。
