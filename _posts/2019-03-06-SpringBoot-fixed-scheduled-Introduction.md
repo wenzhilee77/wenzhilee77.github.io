@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Spring定时任务简介"
+title:  "SpringBoot定时任务简介"
 categories: schedule
 tags: schedule
 author: wenzhilee77
