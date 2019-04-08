@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Spring定时任务简介"
-categories: zookeeper
-tags: zookeeper
+categories: schedule
+tags: schedule
 author: wenzhilee77
 ---
 
