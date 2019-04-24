@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "参数对消息持久化的影响"
+title:  "ack参数对消息持久化的影响"
 categories: Kafka ack Producer
 tags: Kafka ack
 author: wenzhilee77
