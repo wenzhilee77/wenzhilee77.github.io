@@ -1,22 +1,62 @@
 ---
 layout: post
-title:  "SpringBoot2.0 整合 MybatisPlus 组件"
-categories: SpringBoot MybatisPlus HikariCP
-tags:  SpringBoot MybatisPlus HikariCP  
+title:  "SpringBoot2.0整合MybatisPlus"
+categories: SpringBoot Mybatis-Plus HikariCP
+tags:  SpringBoot Mybatis-Plus HikariCP  
 author: wenzhilee77
 ---
 
 * content
 {:toc}
 
-## 数据库配置文件
+# 依赖jar包
 
+pom.xml
 ```
+<dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.15</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+    </dependencies>
+```
+
+
+# 数据库配置文件
+
+application.xml
+```
+server:
+  port: 8998
+
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/test?useSSL=false
+    url: jdbc:mysql://10.179.69.34:3306/online?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     username: root
-    password: root
+    password:
     type: com.zaxxer.hikari.HikariDataSource
 
     hikari:
@@ -27,11 +67,10 @@ spring:
       max-lifetime: 1800000
       connection-timeout: 30000
 
-
 mybatis-plus:
   mapper-locations: classpath:/mappers/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.wenzhilee77.mybatis.demo.model
+  typeAliasesPackage: com.wenzhli.integrate.data.model
 
   global-config:
     #主键类型  0:"数据库ID自增", 1:"用户输入ID", 2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
@@ -53,111 +92,99 @@ mybatis-plus:
     cache-enabled: false
 ```
 
-## Mybatis Plus 配置类
+
+# Mybatis Plus 配置类
 
 ```
-package com.wenzhilee77.mybatis.demo.config;
-
-import com.baomidou.mybatisplus.core.injector.ISqlInjector;
-import com.baomidou.mybatisplus.extension.injector.LogicSqlInjector;
-import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-
 @Configuration
-@MapperScan("com.wenzhilee77.mybatis.demo.mapper")
-public class MybatisPlusConfig {
+@MapperScan("com.wenzhli.integrate.data.mapper")
+public class MybatisPlusConfig
+{
 
     /**
      * 分页插件
      */
     @Bean
-    public PaginationInterceptor paginationInterceptor() {
+    public PaginationInterceptor paginationInterceptor()
+    {
         return new PaginationInterceptor();
     }
 
     /**
      * sql注入器  逻辑删除插件
+     *
      * @return
      */
     @Bean
-    public ISqlInjector iSqlInjector(){
+    public ISqlInjector iSqlInjector()
+    {
         return new LogicSqlInjector();
     }
 
     /**
      * sql性能分析插件，输出sql语句及所需时间
+     *
      * @return
      */
     @Bean
-    @Profile({"dev","test"})// 设置 dev test 环境开启
-    public PerformanceInterceptor performanceInterceptor() {
+    @Profile({"dev", "test"})// 设置 dev test 环境开启
+    public PerformanceInterceptor performanceInterceptor()
+    {
         return new PerformanceInterceptor();
     }
+
     /**
      * 乐观锁插件
+     *
      * @return
      */
-    public OptimisticLockerInterceptor optimisticLockerInterceptor(){
+    public OptimisticLockerInterceptor optimisticLockerInterceptor()
+    {
         return new OptimisticLockerInterceptor();
     }
 }
 ```
 
-## 实体类
+
+# 实体类
 
 ```
-package com.wenzhilee77.mybatis.demo.model;
-
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-
-import java.io.Serializable;
-
-public class User extends Model
+public class UserInfo extends Model
 {
-    @TableId(type = IdType.AUTO)
-    private Integer userId;
-
-    private String userName;
-
-    private String password;
-
+    @TableId
+    private int id;
+    private String usernameZh;
     private String phone;
+    private String idCard;
+    private String email;
+    private String organization;
+    private String department;
+    private String job;
+    private String city;
+    private int status;
+    private Date createTime;
+    private Date updateTime;
+    private int creatorId;
+    private int isDelete;
 
-    public Integer getUserId()
+    public int getId()
     {
-        return userId;
+        return id;
     }
 
-    public void setUserId(Integer userId)
+    public void setId(int id)
     {
-        this.userId = userId;
+        this.id = id;
     }
 
-    public String getUserName()
+    public String getUsernameZh()
     {
-        return userName;
+        return usernameZh;
     }
 
-    public void setUserName(String userName)
+    public void setUsernameZh(String usernameZh)
     {
-        this.userName = userName;
-    }
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword(String password)
-    {
-        this.password = password;
+        this.usernameZh = usernameZh;
     }
 
     public String getPhone()
@@ -170,43 +197,137 @@ public class User extends Model
         this.phone = phone;
     }
 
+    public String getIdCard()
+    {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard)
+    {
+        this.idCard = idCard;
+    }
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    public String getOrganization()
+    {
+        return organization;
+    }
+
+    public void setOrganization(String organization)
+    {
+        this.organization = organization;
+    }
+
+    public String getDepartment()
+    {
+        return department;
+    }
+
+    public void setDepartment(String department)
+    {
+        this.department = department;
+    }
+
+    public String getJob()
+    {
+        return job;
+    }
+
+    public void setJob(String job)
+    {
+        this.job = job;
+    }
+
+    public String getCity()
+    {
+        return city;
+    }
+
+    public void setCity(String city)
+    {
+        this.city = city;
+    }
+
+    public int getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(int status)
+    {
+        this.status = status;
+    }
+
+    public Date getCreateTime()
+    {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime)
+    {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime()
+    {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime)
+    {
+        this.updateTime = updateTime;
+    }
+
+    public int getCreatorId()
+    {
+        return creatorId;
+    }
+
+    public void setCreatorId(int creatorId)
+    {
+        this.creatorId = creatorId;
+    }
+
+    public int getIsDelete()
+    {
+        return isDelete;
+    }
+
+    public void setIsDelete(int isDelete)
+    {
+        this.isDelete = isDelete;
+    }
+
     @Override
     public String toString()
     {
-        return "User{" + "userId=" + userId + ", userName='" + userName + '\'' + ", password='" + password + '\'' + ", phone='" + phone + '\'' + '}';
+        return "UserInfo{" + "id=" + id + ", usernameZh='" + usernameZh + '\'' + ", phone='" + phone + '\'' + ", idCard='" + idCard + '\'' + ", email='" + email + '\'' + ", organization='" + organization + '\'' + ", department='" + department + '\'' + ", job='" + job + '\'' + ", city='" + city + '\'' + ", status=" + status + ", createTime=" + createTime + ", updateTime=" + updateTime + ", creatorId=" + creatorId + ", isDelete=" + isDelete + '}';
     }
 }
 ```
 
-## 自定义 Mapper 类
+
+# 自定义 Mapper 类
 
 ```
-package com.wenzhilee77.mybatis.demo.mapper;
-
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wenzhilee77.mybatis.demo.model.User;
-
-/**
- * User Mapper interface
- *
- * @author wenzhilee77
- */
-public interface UserMapper extends BaseMapper<User>
+public interface UserInfoMapper extends BaseMapper<UserInfo>
 {
-
 }
 ```
 
-## Service 接口类
+
+# Service 接口类
 
 ```
-package com.wenzhilee77.mybatis.demo.service;
-
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.wenzhilee77.mybatis.demo.model.User;
-
-import java.util.List;
-
 public interface UserService
 {
     int insert(User user);
@@ -219,20 +340,10 @@ public interface UserService
 }
 ```
 
-## Service 实现类
+
+# Service 实现类
 
 ```
-package com.wenzhilee77.mybatis.demo.service.imp;
-
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.wenzhilee77.mybatis.demo.mapper.UserMapper;
-import com.wenzhilee77.mybatis.demo.model.User;
-import com.wenzhilee77.mybatis.demo.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 @Service
 public class UserServiceImpl implements UserService
 {
@@ -266,7 +377,8 @@ public class UserServiceImpl implements UserService
 }
 ```
 
-## Controller 实现类
+
+# Controller 实现类
 
 ```
 package com.wenzhilee77.mybatis.demo.controller;
@@ -329,32 +441,27 @@ public class UserController
 }
 ```
 
-## 测试启动类
+
+# 测试启动类
 
 ```
-package com.wenzhilee77.mybatis.demo;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 @SpringBootApplication
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
-        "com.wenzhilee77.mybatis.demo.config",
-        "com.wenzhilee77.mybatis.demo.controller",
-        "com.wenzhilee77.mybatis.demo.service"})
-public class MybatisDemoApplication
+        "com.wenzhli.integrate.data.config",
+        "com.wenzhli.integrate.data.mapper",
+        "com.wenzhli.integrate.data.controller"})
+public class DataApplication
 {
     public static void main(String[] args)
     {
-        SpringApplication.run(MybatisDemoApplication.class, args);
+        SpringApplication.run(DataApplication.class, args);
     }
 }
 ```
 
-## 关于分页的简单实现
+
+# 关于分页的简单实现
 
 ```
     public void selectPage()
@@ -368,6 +475,7 @@ public class MybatisDemoApplication
     }
 ```
 
-参考
+
+# 参考
 
 https://gitee.com/baomidou/mybatis-plus-samples
