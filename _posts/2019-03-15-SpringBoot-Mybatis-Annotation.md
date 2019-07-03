@@ -1,3 +1,11 @@
+---
+layout: post
+title:  SpringBoot使用Mybatis
+categories: SpringBoot Mybatis Annotation
+tags: SpringBoot Mybatis Annotation
+author: wenzhilee77
+---
+
 # 依赖jar包
 ```xml
     <properties>
