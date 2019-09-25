@@ -16,9 +16,9 @@ author: wenzhilee77
 
 ## Tomcat 优化
 Tomcat支持以下三种模式：
-1.BIO：一个线程处理一个请求，缺点：并发量高时，线程数较多，浪费资源，Tomcat7或以下在Linux系统中默认使用这种方式。
-2.NIO：利用Java的异步IO处理，可以通过少量的线程处理大量的请求。Tomcat8在Linux系统中默认使用这种方式。Tomcat7 必须修改Connector配置来启（conf/server.xml配置文件）：
-3.APR(Apache Portable Runtime)：从操作系统层面解决io阻塞问题。Linux如果安装了apr和native，Tomcat直接启动就支持apr。
+1. BIO：一个线程处理一个请求，缺点：并发量高时，线程数较多，浪费资源，Tomcat7或以下在Linux系统中默认使用这种方式。
+2. NIO：利用Java的异步IO处理，可以通过少量的线程处理大量的请求。Tomcat8在Linux系统中默认使用这种方式。Tomcat7 必须修改Connector配置来启（conf/server.xml配置文件）：
+3. APR(Apache Portable Runtime)：从操作系统层面解决io阻塞问题。Linux如果安装了apr和native，Tomcat直接启动就支持apr。
 为了方便易用这里我们选择NIO模式，小伙伴们直接下载使用 Tomcat8 以上版本即可，连接池什么的一般使用默认的即可。
 
 # 版本二
@@ -49,12 +49,12 @@ Tomcat支持以下三种模式：
 
 ![](/images/architecture/image6.jpg)
 
-1.如果仅仅对于一个博客而已一个Nginx 足够了，后面可以带多个Tomcat 做负载均衡进群
-2.Nginx 应用层面做限流，后端单个服务可以做接口限流
-3.后端服务用户 Session 可以集中存储到 Redsi 中
-4.布隆过滤拦截防止缓存穿透
-5.热点数据读取 Redis 缓存
-6.如有必要 Redis 、MySql 可以做主从集群
+1. 如果仅仅对于一个博客而已一个Nginx 足够了，后面可以带多个Tomcat 做负载均衡进群
+2. Nginx 应用层面做限流，后端单个服务可以做接口限流
+3. 后端服务用户 Session 可以集中存储到 Redsi 中
+4. 布隆过滤拦截防止缓存穿透
+5. 热点数据读取 Redis 缓存
+6. 如有必要 Redis 、MySql 可以做主从集群
 
 # 参考
 
