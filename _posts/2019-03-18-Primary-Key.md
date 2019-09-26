@@ -12,20 +12,24 @@ author: wenzhilee77
   1. 如果是InnoDB存储引擎，主键不宜过长；
   2. 如果是MyISAM存储引擎，影响不大；
   
-## 索引结构
+# 索引结构
 
 假设有数据表：
+```mysql
 t(id PK, name KEY, sex, flag);
+```
 
 其中：
   1. id是主键;
   2. name建了普通索引;
 
 假设表中有四条记录：
+```mysql
 1, shenjian, m, A
 3, zhangsan, m, A
 5, lisi, m, A
 9, wangwu, f, B
+```
 
 如果存储引擎是MyISAM，其索引与记录的结构是这样的：
 
@@ -110,4 +114,3 @@ birthday(index));
 # 参考
 
 https://mp.weixin.qq.com/s/JwrXkr0RirqLMRHLtk6INQ
-
