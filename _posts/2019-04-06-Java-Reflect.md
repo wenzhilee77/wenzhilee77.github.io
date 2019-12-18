@@ -17,8 +17,8 @@ JAVA反射机制是在运行状态中，对于任意一个类，都能够获取�
 
 # new和反射创建的区别
 从结果来说没有区别。
-new：静态编译，只能用于编译期就能确定的类型，而且需要import相应的包。
-反射：动态编译，在运行时可以确定类型并创建其对象，能够实现一些更为动态的效果。
+* new：静态编译，只能用于编译期就能确定的类型，而且需要import相应的包。
+* 反射：动态编译，在运行时可以确定类型并创建其对象，能够实现一些更为动态的效果。
 
 # 反射的实现
 我们知道，要使用一个类，就要先把它加载到虚拟机中，生成一个Class对象。这个class对象就保存了这个类的一切信息。 反射机制的实现，就是获取这个Class对象，通过Class对象去访问类、对象的元数据以及运行时的数据。有三种方法获得类的Class对象：
@@ -28,6 +28,7 @@ new：静态编译，只能用于编译期就能确定的类型，而且需要im
 
 # 什么是class类
 在面向对象的世界里，万物皆对象。类是对象，类是java.lang.Class类的实例对象。另外class类只有java虚拟机才能new出来,任何一个类都是Class 类的实例对象,这实例对象有三种表达方式：
+
 ```java
 public class Person {
 }
@@ -57,6 +58,7 @@ public class PersonClassTest {
 反射首先获取Class对象；然后获取Method类和Field类；最后通过Method和Field类进行具体的方法调用或属性访问。
 
 1. 在运行时获取对象所属类的类名等信息
+
 ```java
 对象名.getClass().getName();
 ```
@@ -71,6 +73,7 @@ public class PersonClassTest {
 ```
 
 2. 在运行时，通过创建class对象，获取自己的父类信息
+
 ```java
  Class<?> clazz = Class.forName(当前类);
  Class<?> parentClass = clazz.getSuperclass();
@@ -93,6 +96,7 @@ public class PersonClassTest {
 ```
 
 3. 通过反射机制创建一个类的对象
+
 ```java
 1：反射创建class对象
 2：Classname 对象=classname.newInstance(参数);
@@ -112,6 +116,7 @@ public class PersonClassTest {
 ```
 
 4. 获取类的全部方法，存于一个数组中
+
 ```java
 //创建class对象
 Class<?> clazz = Class.forName(ClassName);
@@ -155,6 +160,7 @@ public class PersonClassTest {
 ```
 
 输出
+
 ```java
 voidwait()
 voidwait(long,int,)
@@ -168,6 +174,7 @@ voidnotifyAll()
 ```
 
 5. 获取类的全部字段，存于一个数组中
+
 ```java
 Class<?> clazz = Class.forName(classname);
 // 取得本类已声明的所有字段，包括私有的、保护的
@@ -204,6 +211,7 @@ public class PersonClassTest {
 ```
 
 输出
+
 ```java
 java.lang.String-->name
 int-->age
@@ -212,6 +220,7 @@ int-->age
 6. 方法反射的操作
 获取一个方法：需要获取方法的名称和方法的参数才能决定一个方法。
 方法的反射操作：
+
 ```java
 method.invoke(对象，参数列表);
 ```
@@ -247,6 +256,7 @@ public class PersonClassTest {
 ```
 
 输出：
+
 ```java
 小新今年18岁
 ```
