@@ -25,7 +25,7 @@ logback-core 是其它模块的基础设施，其它模块基于它构建，显�
 
 ![](/images/logback/001.jpg)
 
-```xml
+```java
 <configuration scan="true" scanPeriod="60 seconds" debug="false">  
     <property name="glmapper-name" value="glmapper-demo" /> 
     <contextName>${glmapper-name}</contextName> 
@@ -92,7 +92,7 @@ logging.path=./logs
 
 ## 通过控制台输出的log
 logback-spring.xml的配置如下：
-```xml
+```java
 <configuration>
     <!-- 默认的控制台日志输出，一般生产环境都是后台启动，这个没太大作用 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -133,7 +133,7 @@ public String hello(){
 
 ## 控制台不打印，直接输出到日志文件
 先来看下配置文件：
-```xml
+```java
 <configuration>
     <!-- 属性文件:在properties文件中找到对应的配置项 -->
     <springProperty scope="context" name="logging.path"  source="logging.path"/>
@@ -176,7 +176,7 @@ public String hello(){
 
 但是实际上我们不希望我的业务日志中会包括这些启动信息。所以这个时候我们就需要通过logger标签来搞事情了。将上面的配置文件进行简单修改：
 
-```xml
+```java
 <logger name="com.glmapper.spring.boot.controller" level="${logging.level}"
         additivity="false">
     <appender-ref ref="GLMAPPER-LOGGERONE" />
@@ -206,7 +206,7 @@ appender是一个日志打印的组件，这里组件里面定义了打印过滤
 ## appender 配置详解
 
 这里以上面案例中的名为GLMAPPER-LOGGERONE的appender说明：
-```xml
+```java
 <appender name="GLMAPPER-LOGGERONE"
     class="ch.qos.logback.core.rolling.RollingFileAppender">
     <append>true</append>
@@ -235,7 +235,7 @@ appender 有两个属性 name和class;name指定appender名称，class指定appe
 * RollingFileAppender：滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件。它是FileAppender的子类
 
 2. append 子标签
-```xml
+```java
 <append>true</append>
 ```
 
@@ -244,7 +244,7 @@ appender 有两个属性 name和class;name指定appender名称，class指定appe
 
 4. ThresholdFilter
 临界值过滤器，过滤掉低于指定临界值的日志。当日志级别等于或高于临界值时，过滤器返回NEUTRAL；当日志级别低于临界值时，日志会被拒绝。
-```xml
+```java
 <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
     <level>INFO</level>
 </filter>
@@ -252,7 +252,7 @@ appender 有两个属性 name和class;name指定appender名称，class指定appe
 
 5. LevelFilter
 级别过滤器，根据日志级别进行过滤。如果日志级别等于配置级别，过滤器会根据onMath(用于配置符合过滤条件的操作) 和 onMismatch(用于配置不符合过滤条件的操作)接收或拒绝日志。
-```xml
+```java
 <filter class="ch.qos.logback.classic.filter.LevelFilter">   
   <level>INFO</level>   
   <onMatch>ACCEPT</onMatch>   
@@ -264,7 +264,7 @@ appender 有两个属性 name和class;name指定appender名称，class指定appe
 
 6. file 子标签
 file 标签用于指定被写入的文件名，可以是相对目录，也可以是绝对目录，如果上级目录不存在会自动创建，没有默认值。
-```xml
+```java
 <file>
     ${logging.path}/glmapper-spring-boot/glmapper-loggerone.log
 </file>
@@ -279,7 +279,7 @@ file 标签用于指定被写入的文件名，可以是相对目录，也可以
 最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责出发滚动。这个下面又包括了两个属性：
 * FileNamePattern
 * maxHistory
-```xml
+```java
 <rollingPolicy 
     class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
     <!--日志文件输出的文件名:按天回滚 daily -->
@@ -300,7 +300,7 @@ file 标签用于指定被写入的文件名，可以是相对目录，也可以
 对记录事件进行格式化。它干了两件事：
 * 把日志信息转换成字节数组
 * 把字节数组写入到输出流
-```xml
+```java
 <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
     <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}
     - %msg%n</pattern>
@@ -311,7 +311,7 @@ file 标签用于指定被写入的文件名，可以是相对目录，也可以
 目前encoder只有PatternLayoutEncoder一种类型。
 
 11. 定义一个只打印error级别日志的appcener
-```xml
+```java
  <!-- 错误日志 appender ： 按照每天生成日志文件 -->
 <appender name="ERROR-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <append>true</append>
@@ -338,7 +338,7 @@ file 标签用于指定被写入的文件名，可以是相对目录，也可以
 ```
 
 12. 定义一个输出到控制台的appender
-```xml
+```java
 <!-- 默认的控制台日志输出，一般生产环境都是后台启动，这个没太大作用 -->
 <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -348,7 +348,7 @@ file 标签用于指定被写入的文件名，可以是相对目录，也可以
 ```
 
 ## logger 配置详解
-```xml
+```java
 <logger name="com.glmapper.spring.boot.controller"
         level="${logging.level}" additivity="false">
     <appender-ref ref="GLMAPPER-LOGGERONE" />
@@ -369,7 +369,7 @@ appender-ref则是用来指定具体appender的。
 1. 根据包进行日志文件隔离
 这个例子里我们将com.glmapper.spring.boot.controller中的日志输出到glmapper-controller.log；将com.glmapper.spring.boot.service中的日志输出到glmapper-service.log。
 
-```xml
+```java
 <!--打印日志到glmapper-service.log的appender-->
 <appender name="GLMAPPER-SERVICE"
           class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -426,14 +426,14 @@ appender-ref则是用来指定具体appender的。
 满足我们的预期，但是这里有个小问题。在info日志里出现了error,当然这是正常的。假如我们不想在info里面出现error怎么办呢？很简单，我们以APPENDER-SERVICE为例，将filter过滤器进行修改：
 
 将下面的：
-```xml
+```java
 <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
     <level>${logging.level}</level>
 </filter>
 ```
 
 修改为：
-```xml
+```java
 <filter class="ch.qos.logback.classic.filter.LevelFilter">
     <level>ERROR</level>
     <!-- 如果命中就禁止这条日志 -->
@@ -447,7 +447,7 @@ appender-ref则是用来指定具体appender的。
 
 2. 根据类进行日志文件隔离
 这个其实也是和上面那个差不过，只不过粒度更细一点，一般情况下比如说我们有个定时任务类需要单独来记录其日志信息，这样我们就可以考虑使用基于类维度来约束打印。
-```xml
+```java
 <!--特殊功能单独appender 例如调度类的日志-->
 <appender name="SCHEDULERTASKLOCK-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <append>true</append>
@@ -474,7 +474,7 @@ appender-ref则是用来指定具体appender的。
 <logger name="com.glmapper.spring.boot.task.TestLogTask" level="${logging.level}" additivity="true">
         <appender-ref ref="SCHEDULERTASKLOCK-APPENDER" />
         <appender-ref ref="ERROR-APPENDER" />
-    </logger>
+</logger>
 ```
 
 3. 根据自定义 logger 的 name 进行日志文件隔离
@@ -515,7 +515,8 @@ public class TestLogNameServiceImpl implements TestLogNameService {
 ```
 
 * appender和logger配置
-```xml
+
+```java
 <appender name="ROOT-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <append>true</append>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -542,7 +543,7 @@ public class TestLogNameServiceImpl implements TestLogNameService {
 <logger name="GLMAPPER-TEST-LOG" level="${logging.level}" additivity="true">
         <appender-ref ref="ROOT-APPENDER" />
         <appender-ref ref="ERROR-APPENDER" />
-    </logger>
+</logger>
 ```
 
 我们这个预期的是TestLogNameServiceImpl中的日志不打印到glmapper-service.log中，而是打印到glmapper-test.log中。
@@ -550,7 +551,7 @@ public class TestLogNameServiceImpl implements TestLogNameService {
 ## 如何使用logback打印mybatis的sql语句
 这个还是比较坑的。为什么。看下这个：
 
-```xml
+```java
 <settings>
     <setting name="logImpl" value="slf4j" />
 </settings>
@@ -560,7 +561,7 @@ public class TestLogNameServiceImpl implements TestLogNameService {
 
 然后在我们的logback-spring.xml中进行如下配置：
 
-```xml
+```java
  <!-- 将sql语句输出到具体的日志文件中 -->
 <logger name="com.alipay.sofa.cloudplatform.common.dao" level="${logging.sql.level}" additivity="false">
     <appender-ref ref="SQL-APPENDER"/>
