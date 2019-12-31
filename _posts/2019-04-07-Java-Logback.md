@@ -239,9 +239,11 @@ appender 有两个属性 name和class;name指定appender名称，class指定appe
 <append>true</append>
 ```
 **filter 子标签**
+
 在简介中提到了filter；作用就是上面说的。可以为appender 添加一个或多个过滤器，可以用任意条件对日志进行过滤。appender 有多个过滤器时，按照配置顺序执行。
 
 **ThresholdFilter**
+
 临界值过滤器，过滤掉低于指定临界值的日志。当日志级别等于或高于临界值时，过滤器返回NEUTRAL；当日志级别低于临界值时，日志会被拒绝。
 ```xml
 <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -250,6 +252,7 @@ appender 有两个属性 name和class;name指定appender名称，class指定appe
 ```
 
 **LevelFilter**
+
 级别过滤器，根据日志级别进行过滤。如果日志级别等于配置级别，过滤器会根据onMath(用于配置符合过滤条件的操作) 和 onMismatch(用于配置不符合过滤条件的操作)接收或拒绝日志。
 ```xml
 <filter class="ch.qos.logback.classic.filter.LevelFilter">   
@@ -262,6 +265,7 @@ appender 有两个属性 name和class;name指定appender名称，class指定appe
 关于NEUTRAL、ACCEPT、DENY 见上文简介中关于filter的介绍。
 
 **file子标签**
+
 file 标签用于指定被写入的文件名，可以是相对目录，也可以是绝对目录，如果上级目录不存在会自动创建，没有默认值。
 ```xml
 <file>
@@ -272,9 +276,11 @@ file 标签用于指定被写入的文件名，可以是相对目录，也可以
 这个表示当前appender将会将日志写入到${logging.path}/glmapper-spring-boot/glmapper-loggerone.log这个目录下。
 
 **rollingPolicy子标签**
+
 这个子标签用来描述滚动策略的。这个只有appender的class是RollingFileAppender时才需要配置。这个也会涉及文件的移动和重命名（a.log->a.log.2018.07.22）。
 
 **TimeBasedRollingPolicy**
+
 最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责出发滚动。这个下面又包括了两个属性：
 
 * FileNamePattern
@@ -295,9 +301,11 @@ file 标签用于指定被写入的文件名，可以是相对目录，也可以
 上面的这段配置表明每天生成一个日志文件，保存30天的日志文件
 
 **FixedWindowRollingPolicy**
+
 根据固定窗口算法重命名文件的滚动策略。
 
 **encoder 子标签**
+
 对记录事件进行格式化。它干了两件事：
 
 * 把日志信息转换成字节数组
@@ -369,7 +377,8 @@ appender-ref则是用来指定具体appender的。
 ## 不同日志隔离打印案例
 在前面的例子中我们有三种appender,一个是指定包约束的，一个是控制error级别的，一个是控制台的。然后这小节我们就来实现下不同日志打印到不同的log文件中。
 
-1. 根据包进行日志文件隔离
+**根据包进行日志文件隔离**
+
 这个例子里我们将com.glmapper.spring.boot.controller中的日志输出到glmapper-controller.log；将com.glmapper.spring.boot.service中的日志输出到glmapper-service.log。
 
 ```xml
@@ -448,7 +457,8 @@ appender-ref则是用来指定具体appender的。
 
 这里同时要注意的是，在logger中level需要设置为info级别。
 
-2. 根据类进行日志文件隔离
+**根据类进行日志文件隔离**
+
 这个其实也是和上面那个差不过，只不过粒度更细一点，一般情况下比如说我们有个定时任务类需要单独来记录其日志信息，这样我们就可以考虑使用基于类维度来约束打印。
 ```xml
 <!--特殊功能单独appender 例如调度类的日志-->
@@ -480,7 +490,8 @@ appender-ref则是用来指定具体appender的。
 </logger>
 ```
 
-3. 根据自定义 logger 的 name 进行日志文件隔离
+**根据自定义 logger 的 name 进行日志文件隔离**
+
 logger的name除了类、包等约束之外，当然还可以这样来玩。。。
 
 * 在进行案例之前，这里先把前面案例中logger声明的代码贴一下，以作对比,以TestLogTask类中的日志为例：
@@ -498,6 +509,7 @@ logger的name除了类、包等约束之外，当然还可以这样来玩。。�
 ```
 
 * 业务类定义
+
 我们同样是service包下定义一个类TestLogNameServiceImpl
 
 ```java
@@ -518,7 +530,6 @@ public class TestLogNameServiceImpl implements TestLogNameService {
 ```
 
 * appender和logger配置
-
 ```java
 <appender name="ROOT-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <append>true</append>
