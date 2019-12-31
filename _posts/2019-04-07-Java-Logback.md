@@ -229,12 +229,12 @@ appender是一个日志打印的组件，这里组件里面定义了打印过滤
 
 appender 有两个属性 name和class;name指定appender名称，class指定appender的全限定名。上面声明的是名为GLMAPPER-LOGGERONE，class为ch.qos.logback.core.rolling.RollingFileAppender的一个appender。
 
-1. appender 的种类
+1. appender的种类
 * ConsoleAppender：把日志添加到控制台
 * FileAppender：把日志添加到文件
 * RollingFileAppender：滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件。它是FileAppender的子类
 
-2. append 子标签
+2. append子标签
 ```java
 <append>true</append>
 ```
@@ -262,7 +262,7 @@ appender 有两个属性 name和class;name指定appender名称，class指定appe
 
 关于NEUTRAL、ACCEPT、DENY 见上文简介中关于filter的介绍。
 
-6. file 子标签
+6. file子标签
 file 标签用于指定被写入的文件名，可以是相对目录，也可以是绝对目录，如果上级目录不存在会自动创建，没有默认值。
 ```java
 <file>
@@ -272,13 +272,15 @@ file 标签用于指定被写入的文件名，可以是相对目录，也可以
 
 这个表示当前appender将会将日志写入到${logging.path}/glmapper-spring-boot/glmapper-loggerone.log这个目录下。
 
-7. rollingPolicy 子标签
+7. rollingPolicy子标签
 这个子标签用来描述滚动策略的。这个只有appender的class是RollingFileAppender时才需要配置。这个也会涉及文件的移动和重命名（a.log->a.log.2018.07.22）。
 
 8. TimeBasedRollingPolicy
 最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责出发滚动。这个下面又包括了两个属性：
+
 * FileNamePattern
 * maxHistory
+
 ```java
 <rollingPolicy 
     class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -298,8 +300,10 @@ file 标签用于指定被写入的文件名，可以是相对目录，也可以
 
 10. encoder 子标签
 对记录事件进行格式化。它干了两件事：
+
 * 把日志信息转换成字节数组
 * 把字节数组写入到输出流
+
 ```java
 <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
     <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}
