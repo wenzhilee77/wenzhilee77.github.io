@@ -494,13 +494,13 @@ appender-ref则是用来指定具体appender的。
 
 logger的name除了类、包等约束之外，当然还可以这样来玩。。。
 
-* 在进行案例之前，这里先把前面案例中logger声明的代码贴一下，以作对比,以TestLogTask类中的日志为例：
++ 在进行案例之前，这里先把前面案例中logger声明的代码贴一下，以作对比,以TestLogTask类中的日志为例：
 ```java
  private static final Logger LOGGER =
  LoggerFactory.getLogger(TestLogTask.class);
 ```
 
-* 在getLogger中我们是将当前对象的class作为参数的，这个是为了打印时获取其全限定名的
++ 在getLogger中我们是将当前对象的class作为参数的，这个是为了打印时获取其全限定名的
 ```java
 1-2018-07-21 11:15:42.003 [pool-1-thread-1] 
 2-INFO  
@@ -508,7 +508,7 @@ logger的name除了类、包等约束之外，当然还可以这样来玩。。�
 4-com.glmapper.spring.boot.task:info
 ```
 
-* 业务类定义
++ 业务类定义
 
 我们同样是service包下定义一个类TestLogNameServiceImpl
 
@@ -529,7 +529,7 @@ public class TestLogNameServiceImpl implements TestLogNameService {
 }
 ```
 
-* appender和logger配置
++ appender和logger配置
 ```xml
 <appender name="ROOT-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <append>true</append>
