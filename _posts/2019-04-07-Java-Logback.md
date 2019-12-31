@@ -530,6 +530,7 @@ public class TestLogNameServiceImpl implements TestLogNameService {
 ```
 
 + appender和logger配置
+
 ```xml
 <appender name="ROOT-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <append>true</append>
