@@ -51,22 +51,22 @@ ps：想使用spring扩展profile支持，要以logback-spring.xml命名，其�
 * scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
 * debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
 
-1.contextName
+1. contextName
 每个logger都关联到logger上下文，默认上下文名称为“default”。但可以使用contextName标签设置成其他名字，用于区分不同应用程序的记录
 
-2.property
+2. property
 用来定义变量值的标签，property标签有两个属性，name和value；其中name的值是变量的名称，value的值时变量定义的值。通过property定义的值会被插入到logger上下文中。定义变量后，可以使“${name}”来使用变量。如上面的xml所示。
 
-3.logger
+3. logger
 用来设置某一个包或者具体的某一个类的日志打印级别以及指定appender。
 
-4.root
+4. root
 根logger，也是一种logger，且只有一个level属性
 
-5.appender
+5. appender
 负责写日志的组件，下面会细说
 
-6.filter
+6. filter
 filter其实是appender里面的子元素。它作为过滤器存在，执行一个过滤器会有返回DENY，NEUTRAL，ACCEPT三个枚举值中的一个。
 
 * DENY：日志将立即被抛弃不再经过其他过滤器
