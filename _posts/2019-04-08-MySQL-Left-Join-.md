@@ -102,41 +102,6 @@ WHERE
 
 ![](/images/join/004.png)
 
-## Using MySQL LEFT JOIN to join three tables
-
-See the following three tables employees, customers, and payments:
-
-![](/images/join/006.svg)
-
-This example uses two LEFT JOIN clauses to join the three tables: employees, customers, and payments.
-
-```mysql
-SELECT
-    lastName,
-    firstName,
-    customerName,
-    checkNumber,
-    amount
-FROM
-    employees
-LEFT JOIN customers ON
-    employeeNumber = salesRepEmployeeNumber
-LEFT JOIN payments ON
-    payments.customerNumber = customers.customerNumber
-ORDER BY
-    customerName,
-    checkNumber;
-```
-
-This picture shows the partial output:
-
-![](/images/join/007.svg)
-
-How it works.
-
-* The first LEFT JOIN returns all employees and customers who represented each employee or NULL if the employee does not in charge of any customer.
-* The second LEFT JOIN returns payments of each customer represented by an employee or NULL if the customer has no payment.
-
 ## Condition in WHERE clause vs. ON clause
 
 See the following example.
@@ -163,7 +128,7 @@ It will have a different meaning.
 
 In this case, the query returns all orders but only the order 10123 will have detail associated with it as shown below.
 
-![](/images/join/008.png)
+![](/images/join/006.png)
 
 Notice that for INNER JOIN clause, the condition in the ON clause is equivalent to the condition in the WHERE clause.
 
