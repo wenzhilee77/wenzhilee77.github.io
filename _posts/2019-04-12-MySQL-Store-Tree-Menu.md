@@ -62,7 +62,7 @@ SELECT* FROM tree WHERE lft < 2 AND rgt > 11 ORDER BY lft ASC;
 
 假定我们要在节点“Red”下添加一个新的子节点“Apple”，该树将变成如下图所示，其中红色节点为新增节点。
 
-![](/images/treeMenu/005.gif)
+![](/images/treeMenu/006.gif)
 
 ```sql
 create procedure insert_node
@@ -94,7 +94,7 @@ end
 
 如果我们想要删除某个节点，会同时删除该节点的所有子孙节点，而这些被删除的节点的个数为：(被删除节点的右值 – 被删除节点的左值+ 1) / 2，而剩下的节点左、右值在大于被删除节点左、右值的情况下会进行调整。来看看树会发生什么变化，以Beef为例，删除效果如下图所示。
 
-![](/images/treeMenu/006.gif)
+![](/images/treeMenu/007.gif)
 
 ```sql
 create procedure delete_node
