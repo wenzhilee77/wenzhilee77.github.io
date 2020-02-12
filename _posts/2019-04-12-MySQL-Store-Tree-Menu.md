@@ -33,7 +33,6 @@ author: wenzhilee77
 ![](/images/treeMenu/004.gif)
 
 ## 树形结构CRUD算法
-
 ### 建立数据库表
 
 ```sql
