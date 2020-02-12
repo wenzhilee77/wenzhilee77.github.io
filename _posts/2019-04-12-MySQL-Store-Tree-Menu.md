@@ -34,6 +34,20 @@ author: wenzhilee77
 
 ## 树形结构CRUD算法
 
+### 建立数据库表
+
+```sql
+create table tree
+( id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'ID',
+  name varchar(100) NOT NULL DEFAULT '' COMMENT '名称',
+  pid INT NOT NULL DEFAULT 0 COMMENT 'PID',
+  sort_val SMALLINT NOT NULL DEFAULT 0 COMMENT '菜单排序'	,
+	lft INT NOT NULL DEFAULT 0 COMMENT '左编码',
+	rgt INT NOT NULL DEFAULT 0 COMMENT '右编码',
+	tree_id INT NOT NULL DEFAULT 0 COMMENT 'TREE ID'
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8
+```
+
 ### 获取某节点的子孙节点
 
 只需要一条SQL语句，即可返回该节点子孙节点的前序遍历列表，以Fruit为例：
