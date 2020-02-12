@@ -68,17 +68,17 @@ SELECT* FROM tree WHERE lft < 2 AND rgt > 11 ORDER BY lft ASC;
 create procedure insert_node
 (
      node_id int,
-		 node_name varchar(100) CHARACTER SET utf8
+     node_name varchar(100) CHARACTER SET utf8
 )
 begin
   if (select count(*) from tree where id = node_id) > 0 then 
     begin
 	    declare rgt_param int;
-			declare tree_id_param int;
-		  select rgt, tree_id into rgt_param, tree_id_param from tree where id = node_id;
-		  update tree set rgt = rgt + 2 where rgt >= rgt_param;
-		  update tree set lft = lft + 2 where lft >= rgt_param;
-		  insert into tree(name, pid, lft, rgt, tree_id) values(node_name, node_id, rgt_param, rgt_param + 1, tree_id_param);
+		declare tree_id_param int;
+		select rgt, tree_id into rgt_param, tree_id_param from tree where id = node_id;
+		update tree set rgt = rgt + 2 where rgt >= rgt_param;
+		update tree set lft = lft + 2 where lft >= rgt_param;
+		insert into tree(name, pid, lft, rgt, tree_id) values(node_name, node_id, rgt_param, rgt_param + 1, tree_id_param);
     end;
   else
 	  begin
@@ -88,6 +88,12 @@ begin
 	  end;
   end if;
 end
+```
+
+调用方式
+
+```sql
+call insert_node(0, '蔬菜');
 ```
 
 ### 删除某节点
@@ -105,14 +111,20 @@ begin
   if (select count(*) from tree where id = node_id) > 0 then 
     begin
 	    declare lft_param int; 
-			declare rgt_param int;
-		  select lft,rgt into lft_param,rgt_param from tree where id = node_id;
-			delete from tree where lft >= lft_param and rgt <= rgt_param;
-			update tree set lft = lft-(rgt_param-lft_param+1) where lft>lft_param;
-			update tree set rgt = rgt-(rgt_param-lft_param+1) where rgt>rgt_param;
-   end;
-	end if;
+		declare rgt_param int;
+		select lft,rgt into lft_param,rgt_param from tree where id = node_id;
+		delete from tree where lft >= lft_param and rgt <= rgt_param;
+		update tree set lft = lft-(rgt_param-lft_param+1) where lft>lft_param;
+		update tree set rgt = rgt-(rgt_param-lft_param+1) where rgt>rgt_param;
+    end;
+  end if;
 end;
+```
+
+调用方式
+
+```sql
+call delete_node(1);
 ```
 
 
