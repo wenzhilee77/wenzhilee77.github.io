@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  一口气说出 6种，@Transactional注解的失效场景
+title:  MySQL 当前读/快照度及一致性视图
 categories: MySQL ReadView MVCC 
 tags:  Spring Transactional Invalid
 author: wenzhilee77
